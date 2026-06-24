@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { fetchCountries } from "@/lib/restCountries";
 
 export default function CountrySearch() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -9,10 +10,9 @@ export default function CountrySearch() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    async function fetchCountries() {
+    async function loadCountries() {
       try {
-        const res = await fetch("https://restcountries.com/v3.1/all");
-        const data = await res.json();
+        const data = await fetchCountries();
         setCountries(data);
         setLoading(false);
       } catch (error) {
@@ -20,7 +20,7 @@ export default function CountrySearch() {
         setLoading(false);
       }
     }
-    fetchCountries();
+    loadCountries();
   }, []);
 
   // Filter countries based on search term
